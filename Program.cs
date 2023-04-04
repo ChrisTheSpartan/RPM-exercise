@@ -24,11 +24,18 @@ internal class Program
 
         while (await timer.WaitForNextTickAsync())
         {
-            var prices = GetFuelPrices(url, apiParams);
+            try
+            {
+                var prices = GetFuelPrices(url, apiParams);
 
-            var inserted = await RecordFuelPrices(prices, Convert.ToInt32(days));
+                var inserted = await RecordFuelPrices(prices, Convert.ToInt32(days));
 
-            Console.WriteLine($"Done. Inserted {inserted} rows.");
+                Console.WriteLine($"Done. Inserted {inserted} rows.");
+
+            } catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
 
     }
